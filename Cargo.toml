@@ -1,5 +1,6 @@
 [workspace]
 
 members = [
-	"mach_sys"
+	"mach_sys",
+	"mach_rs"
 ]

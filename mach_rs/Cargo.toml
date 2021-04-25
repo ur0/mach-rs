@@ -1,0 +1,12 @@
+[package]
+name = "mach_rs"
+version = "0.1.0"
+authors = ["Umang Raghuvanshi <u@umangis.me>"]
+edition = "2018"
+license = "MIT"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+mach_sys = { path = "../mach_sys" }
+thiserror = "1.0.24"
