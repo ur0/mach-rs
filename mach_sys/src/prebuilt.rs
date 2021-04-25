@@ -63140,7 +63140,6 @@ extern "C" {
 extern "C" {
     pub fn voucher_mach_msg_revert(state: voucher_mach_msg_state_t);
 }
-pub type string_t = *const ::std::os::raw::c_char;
 extern "C" {
     pub fn clock_get_time(
         clock_serv: clock_serv_t,
