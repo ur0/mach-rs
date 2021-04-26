@@ -11,9 +11,7 @@
 #![allow(non_snake_case)]
 
 #[cfg(not(feature = "build_bindings"))]
-mod prebuilt;
-#[cfg(not(feature = "build_bindings"))]
-pub use prebuilt::*;
+include!("prebuilt.rs");
 
 #[cfg(feature = "build_bindings")]
 include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
