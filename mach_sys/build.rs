@@ -1,7 +1,4 @@
-#[cfg(all(
-    feature = "bindgen",
-    any(target_os = "macos", target_os = "ios")
-))]
+#[cfg(all(feature = "bindgen", any(target_os = "macos", target_os = "ios")))]
 fn main() {
     use std::{env, path::PathBuf};
     println!("cargo:rerun-if-changed=wrapper.h");
@@ -23,8 +20,5 @@ fn main() {
     panic!("This crate only targets macOS and iOS platforms.");
 }
 
-#[cfg(all(
-    not(feature = "bindgen"),
-    any(target_os = "macos", target_os = "ios")
-))]
+#[cfg(all(not(feature = "bindgen"), any(target_os = "macos", target_os = "ios")))]
 fn main() {}
