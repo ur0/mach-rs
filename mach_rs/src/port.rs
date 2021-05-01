@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for details.
 
 use crate::task::Task;
-use std::ops::{Deref, DerefMut};
 
 use crate::error::MachError;
 use mach_sys::{
@@ -63,10 +62,10 @@ impl Port {
     fn allocate(task: &Task, right: Right) -> Result<Self, MachError> {
         let mut port = Port {
             name: 0,
-            task: task.name,
+            task: task.0.name,
         };
         Ok(Result::from(MachError::from(unsafe {
-            mach_port_allocate(task.name, right as u32, &mut port.name)
+            mach_port_allocate(task.0.name, right as u32, &mut port.name)
         }))
         .map(|_| port)?)
     }
@@ -91,16 +90,14 @@ impl Drop for Port {
 }
 /// Represents a Mach port for which the task owns both a send right and a receive right.
 pub struct SendReceiveRight(pub(crate) Port);
-impl Deref for SendReceiveRight {
-    type Target = Port;
-
-    fn deref(&self) -> &Port {
+impl AsRef<Port> for SendReceiveRight {
+    fn as_ref(&self) -> &Port {
         &self.0
     }
 }
 
-impl DerefMut for SendReceiveRight {
-    fn deref_mut(&mut self) -> &mut Port {
+impl AsMut<Port> for SendReceiveRight {
+    fn as_mut(&mut self) -> &mut Port {
         &mut self.0
     }
 }
@@ -119,16 +116,14 @@ impl Into<ReceiveRight> for SendReceiveRight {
 
 /// Represents a Mach port for which the task owns a send right.
 pub struct SendRight(pub(crate) Port);
-impl Deref for SendRight {
-    type Target = Port;
-
-    fn deref(&self) -> &Port {
+impl AsRef<Port> for SendRight {
+    fn as_ref(&self) -> &Port {
         &self.0
     }
 }
 
-impl DerefMut for SendRight {
-    fn deref_mut(&mut self) -> &mut Port {
+impl AsMut<Port> for SendRight {
+    fn as_mut(&mut self) -> &mut Port {
         &mut self.0
     }
 }
@@ -146,25 +141,24 @@ impl ReceiveRight {
     }
 
     pub fn insert_send_right(self) -> Result<SendReceiveRight, MachError> {
-        self.insert_right(&self, InsertableRight::MakeSend)?;
+        self.0.insert_right(&self.0, InsertableRight::MakeSend)?;
         Ok(SendReceiveRight(self.0))
     }
 
-    pub fn insert_send_right_into_port(&self, port: &Port) -> Result<(), MachError> {
-        self.insert_right(&port, InsertableRight::MakeSend)
+    pub fn insert_send_right_into_port<T: AsRef<Port>>(&self, port: &T) -> Result<(), MachError> {
+        self.0
+            .insert_right(port.as_ref(), InsertableRight::MakeSend)
     }
 }
 
-impl Deref for ReceiveRight {
-    type Target = Port;
-
-    fn deref(&self) -> &Port {
+impl AsRef<Port> for ReceiveRight {
+    fn as_ref(&self) -> &Port {
         &self.0
     }
 }
 
-impl DerefMut for ReceiveRight {
-    fn deref_mut(&mut self) -> &mut Port {
+impl AsMut<Port> for ReceiveRight {
+    fn as_mut(&mut self) -> &mut Port {
         &mut self.0
     }
 }
@@ -182,16 +176,14 @@ impl DeadName {
     }
 }
 
-impl Deref for DeadName {
-    type Target = Port;
-
-    fn deref(&self) -> &Port {
+impl AsRef<Port> for DeadName {
+    fn as_ref(&self) -> &Port {
         &self.0
     }
 }
 
-impl DerefMut for DeadName {
-    fn deref_mut(&mut self) -> &mut Port {
+impl AsMut<Port> for DeadName {
+    fn as_mut(&mut self) -> &mut Port {
         &mut self.0
     }
 }

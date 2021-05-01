@@ -5,7 +5,6 @@
 use mach_sys::mach_task_self_;
 
 use crate::port::Port;
-use std::ops::{Deref, DerefMut};
 
 pub struct Task(pub(crate) Port);
 
@@ -20,16 +19,14 @@ impl Task {
     }
 }
 
-impl Deref for Task {
-    type Target = Port;
-
-    fn deref(&self) -> &Port {
+impl AsRef<Port> for Task {
+    fn as_ref(&self) -> &Port {
         &self.0
     }
 }
 
-impl DerefMut for Task {
-    fn deref_mut(&mut self) -> &mut Port {
+impl AsMut<Port> for Task {
+    fn as_mut(&mut self) -> &mut Port {
         &mut self.0
     }
 }
