@@ -6,7 +6,7 @@ Automatically generated bindings to Mach APIs.
 ## Usage
 
 By default, this crate uses pre-generated bindings. To force the bindings to be
-rebuilt, use the feature `build_bindings`.
+rebuilt, use the feature `bindgen`.
 
 
 ## License

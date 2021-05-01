@@ -10,7 +10,6 @@ license = "MIT"
 [dependencies]
 
 [features]
-build_bindings = ["bindgen"]
 
 [build-dependencies]
 bindgen = { version = "0.53.1", optional = true }

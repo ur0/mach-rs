@@ -10,10 +10,10 @@
 #![allow(non_upper_case_globals)]
 #![allow(non_snake_case)]
 
-#[cfg(not(feature = "build_bindings"))]
+#[cfg(not(feature = "bindgen"))]
 include!("prebuilt.rs");
 
-#[cfg(feature = "build_bindings")]
+#[cfg(feature = "bindgen")]
 include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
 
 #[cfg(test)]

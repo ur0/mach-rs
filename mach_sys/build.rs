@@ -1,5 +1,5 @@
 #[cfg(all(
-    feature = "build_bindings",
+    feature = "bindgen",
     any(target_os = "macos", target_os = "ios")
 ))]
 fn main() {
@@ -24,7 +24,7 @@ fn main() {
 }
 
 #[cfg(all(
-    not(feature = "build_bindings"),
+    not(feature = "bindgen"),
     any(target_os = "macos", target_os = "ios")
 ))]
 fn main() {}
